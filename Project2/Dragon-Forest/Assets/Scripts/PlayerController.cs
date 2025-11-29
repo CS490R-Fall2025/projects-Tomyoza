@@ -136,4 +136,9 @@ public class PlayerController : MonoBehaviour
     {
         if (swordScript != null) swordScript.isAttacking = false;
     }
+
+    public void UpgradeSpeed(float amount)
+    {
+        moveSpeed += amount;
+    }
 }

@@ -44,6 +44,19 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
     }
 
+    public void HealFull()
+    {
+        CurrentHealth = maxHealth;
+        OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
+    }
+
+    public void UpgradeMaxHealth(int amount)
+    {
+        maxHealth += amount;
+        CurrentHealth = maxHealth;
+        OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
+    }
+
     private void Die()
     {
         if (isDead) return;
