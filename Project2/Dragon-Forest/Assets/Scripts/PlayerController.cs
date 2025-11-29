@@ -3,7 +3,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 6f;   // Base speed magnitude
+    [SerializeField] private float moveSpeed = 6f;
+    public float MoveSpeed => moveSpeed;
     [SerializeField] private float rotateSpeed = 720f; // Degrees/sec for facing rotation
 
     [Header("References")]

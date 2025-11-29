@@ -6,10 +6,11 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform player;
     
     [Header("Settings")]
-    [SerializeField] private float mouseSensitivity = 2f;
-    [SerializeField] private float distanceFromPlayer = 5f;
+    [SerializeField] private float mouseSensitivity = 3f;
+    [SerializeField] private float distanceFromPlayer = 30f;
+    [SerializeField] private float screenXOffset = 2.0f;
     [SerializeField] private Vector2 pitchLimits = new Vector2(-10f, 60f); // Limiting how far up or down you can look.
-    [SerializeField] private Vector3 lookOffset = new Vector3(0, 1.5f, 0);
+    [SerializeField] private Vector3 lookOffset = new Vector3(0, 2f, 0);
 
     private float yaw = 0f;
     private float pitch = 0f;
@@ -45,8 +46,12 @@ public class CameraController : MonoBehaviour
         Vector3 targetPosition = player.position + lookOffset;
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
 
+        Vector3 cameraPosition = targetPosition 
+                                 - (rotation * Vector3.forward * distanceFromPlayer) 
+                                 + (rotation * Vector3.right * screenXOffset);
+
         // Calculate position: Start at target, rotate, then move backwards
-        transform.position = targetPosition - (rotation * Vector3.forward * distanceFromPlayer);
+        transform.position = cameraPosition;
         transform.rotation = rotation;
     }
 }

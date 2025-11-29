@@ -5,6 +5,7 @@ public class MoneyPickup : MonoBehaviour
     [SerializeField] private int value = 10;
     [SerializeField] private float rotateSpeed = 100f;
 
+
     private void Update()
     {
         // Simple visual rotation

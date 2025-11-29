@@ -6,6 +6,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [Header("Stats")]
     [SerializeField] public int maxHealth = 100;
     public int CurrentHealth { get; private set; }
+    public int MaxHealth => maxHealth;
     // Event to update the UI: (CurrentHP, MaxHP)
     public event Action<int, int> OnHealthChanged;
     [Header("References")]

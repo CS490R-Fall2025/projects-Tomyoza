@@ -19,9 +19,6 @@ public class SwordAttack : MonoBehaviour
         if (target != null)
         {
             target.ApplyDamage(damageAmount);
-            
-            // Optional: Disable attacking immediately so one swing doesn't hit 50 times
-            // isAttacking = false; 
         }
     }
 }

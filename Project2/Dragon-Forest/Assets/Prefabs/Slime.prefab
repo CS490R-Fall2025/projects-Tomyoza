@@ -431,6 +431,7 @@ MonoBehaviour:
   agentSpeed: 5
   angularSpeed: 120
   acceleration: 8
+  lootPrefab: {fileID: 7281481930561538466, guid: c9622f8d7e5184b9bbf5fcd5948dfcb0, type: 3}
   animator: {fileID: 0}
 --- !u!1 &5418040617256660384
 GameObject:

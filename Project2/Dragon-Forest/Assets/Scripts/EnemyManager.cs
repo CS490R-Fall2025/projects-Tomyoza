@@ -29,6 +29,9 @@ public class EnemyManager : MonoBehaviour, IDamageable
     [SerializeField] private float angularSpeed = 120f;
     [SerializeField] private float acceleration = 8f;
 
+    [Header("Loot Settings")] 
+    [SerializeField] private GameObject lootPrefab;
+
     [Header("Animation (Optional)")]
     [SerializeField] private Animator animator;
 
@@ -156,6 +159,10 @@ public class EnemyManager : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        if (lootPrefab != null)
+        {
+            Instantiate(lootPrefab, transform.position + Vector3.up, lootPrefab.transform.rotation);
+        }
         // Add death animation or sound here later
         Destroy(gameObject);
     }

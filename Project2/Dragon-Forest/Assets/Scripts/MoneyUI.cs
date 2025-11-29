@@ -1,15 +1,14 @@
 using UnityEngine;
-using UnityEngine.TMPro;
+using TMPro;
 
 public class MoneyUI : MonoBehaviour
 {
-    public TMPro.TextMeshProUGUI moneyText;
-
+    public TextMeshProUGUI moneyText;
     [SerializeField] private PlayerWallet playerWallet;
 
     private void Start()
     {
-        if (playerWallet == null)
+        if (playerWallet == null) 
         {
             GameObject player = GameObject.FindWithTag("Player");
             if (player != null) playerWallet = player.GetComponent<PlayerWallet>();
