@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rotateSpeed = 720f; // Degrees/sec for facing rotation
 
     [Header("References")]
-    [SerializeField] private Animator animator; // Optional: set if you have a running animation
+    [SerializeField] private Animator animator;
 
     [Header("Combat")]
     public SwordAttack swordScript;

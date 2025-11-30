@@ -21,4 +21,9 @@ public class SwordAttack : MonoBehaviour
             target.ApplyDamage(damageAmount);
         }
     }
+
+    public void UpgradeAttack(int amount)
+    {
+        damageAmount += amount;
+    }
 }

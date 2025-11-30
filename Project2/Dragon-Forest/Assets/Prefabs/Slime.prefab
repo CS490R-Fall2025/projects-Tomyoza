@@ -422,13 +422,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a271c0e46011940b5aae65805b89cf9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  maxHealth: 10
   destroyOnDeath: 1
   damageAmount: 5
   attackCooldown: 2
-  chaseDistance: 10
+  chaseDistance: 20
   stopDistance: 11
-  agentSpeed: 5
+  agentSpeed: 7
   angularSpeed: 120
   acceleration: 8
   lootPrefab: {fileID: 7281481930561538466, guid: c9622f8d7e5184b9bbf5fcd5948dfcb0, type: 3}

@@ -1,16 +1,24 @@
 using UnityEngine;
 
-public class ShopUI : MonoBehaviour
+public class ShopTrigger : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [Header("Shop Type")]
+    // Type exactly: "Meat", "Vegetable", "Fish", or "Weapon"
+    public string shopType = "Meat"; 
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            ShopManager.Instance.OpenShop(shopType);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            ShopManager.Instance.CloseShop();
+        }
     }
 }
