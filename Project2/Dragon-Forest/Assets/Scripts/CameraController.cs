@@ -17,6 +17,11 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.FindWithTag("Player");
+            if (playerObj != null) player = playerObj.transform;
+        }
         // Initialize rotation to match current view
         yaw = transform.eulerAngles.y;
         pitch = transform.eulerAngles.x;

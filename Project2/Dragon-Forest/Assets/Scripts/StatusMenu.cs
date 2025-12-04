@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class StatusMenu : MonoBehaviour
 {
@@ -11,27 +12,28 @@ public class StatusMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI speedText;
 
     [Header("Player Data")]
-    [SerializeField] private PlayerHealth playerHealth;
-    [SerializeField] private PlayerWallet playerWallet;
-    [SerializeField] private SwordAttack swordAttack; 
-    [SerializeField] private PlayerController playerController;
+    private PlayerHealth playerHealth;
+    private PlayerWallet playerWallet;
+    private SwordAttack swordAttack; 
+    private PlayerController playerController;
 
     private bool isMenuOpen = false;
+
+    private void OnEnable() 
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable() 
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     void Start()
     {
         if (uiPanel != null) uiPanel.SetActive(false);
         
-        // Auto-find components if not assigned
-        GameObject player = GameObject.FindWithTag("Player");
-        if (player != null)
-        {
-            if (playerHealth == null) playerHealth = player.GetComponent<PlayerHealth>();
-            if (playerWallet == null) playerWallet = player.GetComponent<PlayerWallet>();
-            
-            if (swordAttack == null) swordAttack = player.GetComponentInChildren<SwordAttack>();
-            if (playerController == null) playerController = player.GetComponent<PlayerController>();
-        }
+        FindPlayerComponents();
     }
 
     void Update()
@@ -41,6 +43,33 @@ public class StatusMenu : MonoBehaviour
         {
             ToggleMenu();
         }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        FindPlayerComponents();
+    }
+
+    private void FindPlayerComponents()
+    {
+        // Reset to prevent holding old data
+        playerHealth = null;
+        playerWallet = null;
+        swordAttack = null;
+        playerController = null;
+
+        GameObject player = GameObject.FindWithTag("Player");
+
+        if (player != null)
+        {
+            if (playerHealth == null) playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerWallet == null) playerWallet = player.GetComponent<PlayerWallet>();
+            
+            if (swordAttack == null) swordAttack = player.GetComponentInChildren<SwordAttack>();
+            if (playerController == null) playerController = player.GetComponent<PlayerController>();
+        }
+        // Force an update right now to see if values change
+        UpdateStats();
     }
 
     void ToggleMenu()

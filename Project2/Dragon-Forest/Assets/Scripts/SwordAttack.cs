@@ -4,6 +4,8 @@ public class SwordAttack : MonoBehaviour
 {
     [Header("Settings")]
     public int damageAmount = 1;
+    [Header("Audio")]
+    public AudioClip swingSound;
 
     // Only damage enemies when the attack animation is playing
     public bool isAttacking = false; 
@@ -19,6 +21,7 @@ public class SwordAttack : MonoBehaviour
         if (target != null)
         {
             target.ApplyDamage(damageAmount);
+            AudioManager.Instance.PlaySFX(swingSound);
         }
     }
 

@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     public SwordAttack swordScript;
     public float comboResetTime = 1.0f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource runSound;
+
     private Rigidbody rb;
     private Camera mainCamera;
     // COMBO VARIABLES
@@ -38,6 +41,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main;
+        }
+
         RotateToMouse();
 
         float inputH = Input.GetAxis("Horizontal");
@@ -54,6 +62,20 @@ public class PlayerController : MonoBehaviour
 
         Vector3 moveDir = camForward * inputV + camRight * inputH;
         bool hasInput = moveDir.sqrMagnitude > 0.0001f;
+
+        if (runSound != null)
+        {
+            // If we are moving AND the sound isn't playing yet -> Play it
+            if (hasInput && !runSound.isPlaying)
+            {
+                runSound.Play();
+            }
+            // If we stopped moving OR we are standing still -> Stop it
+            else if (!hasInput && runSound.isPlaying)
+            {
+                runSound.Stop();
+            }
+        }
 
         Vector3 currentVel = rb.linearVelocity;
         Vector3 desiredVel = hasInput ? moveDir.normalized * moveSpeed : Vector3.zero;

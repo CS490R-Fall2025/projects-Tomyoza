@@ -12,6 +12,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [Header("References")]
     [SerializeField] private Animator animator;
     [SerializeField] private MonoBehaviour playerController;
+
+    [Header("Audio")]
+    public AudioClip hurtSound;
     
     private bool isDead = false;
 
@@ -33,6 +36,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (amount <= 0) return;
 
         CurrentHealth -= amount;
+        AudioManager.Instance.PlaySFX(hurtSound);
         Debug.Log($"Player took {amount} damage! HP: {CurrentHealth}");
 
         // Update UI

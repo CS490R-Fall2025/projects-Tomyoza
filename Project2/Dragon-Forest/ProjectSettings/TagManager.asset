@@ -8,6 +8,10 @@ TagManager:
   - Weapon Market
   - Meat Market
   - Vegitable Market
+  - Canvas
+  - GameOver
+  - GameManager
+  - AudioManager
   layers:
   - Default
   - TransparentFX

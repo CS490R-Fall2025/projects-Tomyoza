@@ -1,28 +1,40 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealthUI : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Image fillImage;
-    [SerializeField] private PlayerHealth playerHealth; 
+    private PlayerHealth playerHealth;
 
     private void Start()
     {
-        if (playerHealth == null)
-        {
-            // Auto-find player if you forgot to drag it
-            GameObject player = GameObject.FindWithTag("Player");
-            if (player != null) playerHealth = player.GetComponent<PlayerHealth>();
-        }
+        FindPlayer();
+    }
 
-        if (playerHealth != null)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        FindPlayer();
+    }
+
+    private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+    private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+    private void FindPlayer()
+    {
+        // Reset old reference
+        playerHealth = null;
+
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null)
         {
-            // Subscribe to the event
+            playerHealth = player.GetComponent<PlayerHealth>();
+            
+            // Unsubscribe to avoid double events
+            playerHealth.OnHealthChanged -= UpdateBar; 
             playerHealth.OnHealthChanged += UpdateBar;
             
-            // Force update immediately
-            UpdateBar(playerHealth.CurrentHealth, playerHealth.maxHealth);
+            UpdateBar(playerHealth.CurrentHealth, playerHealth.MaxHealth);
         }
     }
 

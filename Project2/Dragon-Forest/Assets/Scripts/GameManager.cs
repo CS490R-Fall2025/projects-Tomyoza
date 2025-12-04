@@ -10,9 +10,12 @@ public class GameManager : MonoBehaviour
 
     [Header("UI References")]
     public GameObject gameOverCanvas;
+    public GameObject victoryCanvas;
     [Header("Quest Settings")]
     public int totalCrystals = 4;
-    public int bossSceneIndex = 1;
+    public int TotalCrystals => totalCrystals;
+    public int bossSceneIndex = 2;
+    public string playerName = "Adventurer";
     
     private int crystalsDestroyed = 0; 
     [SerializeField] private TextMeshProUGUI crystalWarningText;
@@ -24,6 +27,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         if (crystalWarningText != null) crystalWarningText.gameObject.SetActive(false);
+        if (victoryCanvas != null) victoryCanvas.SetActive(false);
     }
 
     public void ShowMessage(string message)
@@ -83,9 +87,34 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
+    public void TriggerVictory()
+    {
+        // Show UI
+        if (victoryCanvas != null) victoryCanvas.SetActive(true);
+
+        // Play Music
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.victoryMusic);
+        }
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     public void RestartGame()
     {
-        // Reload the current scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null) Destroy(player);
+
+        GameObject cam = GameObject.FindWithTag("MainCamera");
+        if (cam != null) Destroy(cam);
+
+        GameObject canvas = GameObject.FindWithTag("Canvas");
+        if (canvas != null) Destroy(canvas);
+
+        // Finally, destroy this Game Manager so a fresh one can spawn
+        Destroy(gameObject);
+        SceneManager.LoadScene(0);
     }
 }

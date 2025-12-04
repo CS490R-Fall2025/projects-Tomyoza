@@ -10,6 +10,8 @@ public class Crystal : MonoBehaviour, IDamageable
     [SerializeField] private float floatSpeed = 1.5f;
     [SerializeField] private float floatHeight = 0.5f;
     [SerializeField] private float rotateSpeed = 50f;
+    [Header("Audio")]
+    public AudioClip breakSound;
 
     private int currentHealth;
     private Renderer myRenderer;
@@ -106,6 +108,8 @@ public class Crystal : MonoBehaviour, IDamageable
     private void Die()
     {
         GameManager.Instance.OnCrystalDestroyed();
+
+        AudioManager.Instance.PlaySFX(breakSound);
         
         Destroy(gameObject);
     }

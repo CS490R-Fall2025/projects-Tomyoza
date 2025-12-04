@@ -22,7 +22,7 @@ public class CrystalSpawner : MonoBehaviour
 
     void SpawnCrystals()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < GameManager.Instance.TotalCrystals; i++)
         {
             Vector3 spawnPos = Vector3.zero;
             bool validPositionFound = false;

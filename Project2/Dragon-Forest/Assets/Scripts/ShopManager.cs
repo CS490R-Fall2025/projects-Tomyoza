@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ShopManager : MonoBehaviour
 {
@@ -57,7 +58,18 @@ public class ShopManager : MonoBehaviour
     {
         // Hide shop at start
         if (shopPanel != null) shopPanel.SetActive(false);
+        FindPlayerRefs();
+        
+    }
+    private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+    private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        FindPlayerRefs();
+    }
 
+    private void FindPlayerRefs()
+    {
         GameObject player = GameObject.FindWithTag("Player");
         if (player != null)
         {

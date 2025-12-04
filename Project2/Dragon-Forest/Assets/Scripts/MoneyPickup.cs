@@ -4,6 +4,8 @@ public class MoneyPickup : MonoBehaviour
 {
     [SerializeField] private int value = 10;
     [SerializeField] private float rotateSpeed = 100f;
+    [Header("Audio")]
+    public AudioClip coinSound;
 
 
     private void Update()
@@ -22,7 +24,7 @@ public class MoneyPickup : MonoBehaviour
             if (wallet != null)
             {
                 wallet.AddMoney(value);
-                
+                AudioManager.Instance.PlaySFX(coinSound);
                 Destroy(gameObject);
             }
         }

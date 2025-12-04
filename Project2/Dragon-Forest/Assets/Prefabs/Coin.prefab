@@ -153,3 +153,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 10
   rotateSpeed: 150
+  coinSound: {fileID: 8300000, guid: 500a77d348e9047d5a9eb68f9a57f01a, type: 3}

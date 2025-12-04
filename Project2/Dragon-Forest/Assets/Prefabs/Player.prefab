@@ -822,6 +822,9 @@ GameObject:
   - component: {fileID: 1529810282452917920}
   - component: {fileID: 4755948930437405164}
   - component: {fileID: 7688804123845992693}
+  - component: {fileID: 2182109222764252452}
+  - component: {fileID: 3415314481000761592}
+  - component: {fileID: 4152040608563082837}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -859,7 +862,7 @@ Animator:
   m_GameObject: {fileID: 3693889222744343845}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 0308cf4e83cf517488b60af58b290fe0, type: 3}
-  m_Controller: {fileID: 9100000, guid: 2be64f57d7d213648aa9b2e5e8e0a39b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 230b755b75de01e42872522beacd71ec, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -883,9 +886,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec292162234a47d4a921eea906e1822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 30
   rotateSpeed: 720
   animator: {fileID: 6887365846489799493}
+  swordScript: {fileID: 2006045785576022450}
+  comboResetTime: 1
 --- !u!54 &4755948930437405164
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -936,6 +941,46 @@ CapsuleCollider:
   m_Height: 1.614438
   m_Direction: 1
   m_Center: {x: -0.053655814, y: 0.7639901, z: 0.06600461}
+--- !u!114 &2182109222764252452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693889222744343845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b86778d1a1fc4545b53fa3ed74e0563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  animator: {fileID: 6887365846489799493}
+  playerController: {fileID: 1529810282452917920}
+--- !u!114 &3415314481000761592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693889222744343845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb29fbc51a7543c0b8bccc95349b705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentMoney: 0
+--- !u!114 &4152040608563082837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693889222744343845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c795640e7926493092395a0c82eec7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4036528736828851256
 GameObject:
   m_ObjectHideFlags: 0
@@ -1681,6 +1726,8 @@ GameObject:
   - component: {fileID: 4867948574960492112}
   - component: {fileID: 8368170770667180533}
   - component: {fileID: 6036303114082739519}
+  - component: {fileID: 6634516074054222277}
+  - component: {fileID: 2006045785576022450}
   m_Layer: 0
   m_Name: OHS03
   m_TagString: Untagged
@@ -1756,6 +1803,44 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &6634516074054222277
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5243805988000351466}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1847422
+  m_Height: 1.4156284
+  m_Direction: 1
+  m_Center: {x: -0.00000012671575, y: 0.5035744, z: 0.011121179}
+--- !u!114 &2006045785576022450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5243805988000351466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da2c634bd60c4b59a5e4990922859dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAmount: 100
+  swingSound: {fileID: 8300000, guid: 3f3276ba3e50a4c928d20bdd5c1dab7f, type: 3}
+  isAttacking: 0
 --- !u!1 &5288985843080447350
 GameObject:
   m_ObjectHideFlags: 0
