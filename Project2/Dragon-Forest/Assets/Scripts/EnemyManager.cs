@@ -159,6 +159,14 @@ public class EnemyManager : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        isDead = true;
+        StopAllCoroutines(); 
+
+        if (SpawnManager.Instance != null)
+        {
+            SpawnManager.Instance.RequestRespawn();
+        }
+        
         if (lootPrefab != null)
         {
             Instantiate(lootPrefab, transform.position + Vector3.up, lootPrefab.transform.rotation);

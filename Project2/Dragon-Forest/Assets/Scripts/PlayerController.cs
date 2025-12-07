@@ -5,7 +5,11 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 6f;
     public float MoveSpeed => moveSpeed;
-    [SerializeField] private float rotateSpeed = 720f; // Degrees/sec for facing rotation
+    [SerializeField] private float rotateSpeed = 720f;
+    [SerializeField] private float snapForce = 50f; 
+    [SerializeField] private float groundCheckDist = 1.5f;
+    [SerializeField] private LayerMask groundLayer;
+    [HideInInspector] public Vector3 initialSpawnPosition;
 
     [Header("References")]
     [SerializeField] private Animator animator;
@@ -32,6 +36,7 @@ public class PlayerController : MonoBehaviour
             // It's fine if no animator; we just skip animation toggles
             Debug.LogWarning("PlayerController: Animator not assigned, running animation will be skipped.");
         }
+        initialSpawnPosition = transform.position;
     }
 
     private void Update()
@@ -79,7 +84,14 @@ public class PlayerController : MonoBehaviour
 
         Vector3 currentVel = rb.linearVelocity;
         Vector3 desiredVel = hasInput ? moveDir.normalized * moveSpeed : Vector3.zero;
-        desiredVel.y = currentVel.y;
+        if (IsGrounded())
+        {
+            desiredVel.y = -snapForce; 
+        }
+        else
+        {
+            desiredVel.y = currentVel.y; 
+        }
         rb.linearVelocity = desiredVel;
 
         // If we are moving (hasInput), send 1.0. If stopped, send 0.0.
@@ -95,6 +107,11 @@ public class PlayerController : MonoBehaviour
             Quaternion targetRot = Quaternion.LookRotation(moveDir, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, rotateSpeed * Time.fixedDeltaTime);
         }
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, groundCheckDist, groundLayer);
     }
 
     private void RotateToMouse()

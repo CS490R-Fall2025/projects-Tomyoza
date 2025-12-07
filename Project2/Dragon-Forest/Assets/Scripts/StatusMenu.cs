@@ -6,6 +6,7 @@ public class StatusMenu : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private GameObject uiPanel;
+    [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI attackText;
@@ -91,6 +92,13 @@ public class StatusMenu : MonoBehaviour
 
     void UpdateStats()
     {
+        if (nameText != null)
+        {
+            if (GameManager.Instance != null)
+                nameText.text = "Name: " + GameManager.Instance.playerName;
+            else
+                nameText.text = "Name: Unknown";
+        }
         if (playerHealth != null)
             hpText.text = $"HP: {playerHealth.CurrentHealth} / {playerHealth.MaxHealth}";
 

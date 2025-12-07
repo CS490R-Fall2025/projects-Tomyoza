@@ -825,6 +825,7 @@ GameObject:
   - component: {fileID: 2182109222764252452}
   - component: {fileID: 3415314481000761592}
   - component: {fileID: 4152040608563082837}
+  - component: {fileID: 6474924699051395167}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -886,11 +887,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec292162234a47d4a921eea906e1822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 30
+  moveSpeed: 100
   rotateSpeed: 720
+  snapForce: 0.01
+  groundCheckDist: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  initialSpawnPosition: {x: 0, y: 0, z: 0}
   animator: {fileID: 6887365846489799493}
   swordScript: {fileID: 2006045785576022450}
   comboResetTime: 1
+  runSound: {fileID: 6474924699051395167}
 --- !u!54 &4755948930437405164
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -917,7 +925,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!136 &7688804123845992693
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -956,6 +964,7 @@ MonoBehaviour:
   maxHealth: 100
   animator: {fileID: 6887365846489799493}
   playerController: {fileID: 1529810282452917920}
+  hurtSound: {fileID: 8300000, guid: 0c575dbe8f59148a892a16f5e3243e4c, type: 3}
 --- !u!114 &3415314481000761592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -981,6 +990,103 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c795640e7926493092395a0c82eec7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &6474924699051395167
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693889222744343845}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 9f10df50ac7374be8a61c3a8786d301b, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.523
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4036528736828851256
 GameObject:
   m_ObjectHideFlags: 0
@@ -1838,7 +1944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7da2c634bd60c4b59a5e4990922859dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 100
+  damageAmount: 1000
   swingSound: {fileID: 8300000, guid: 3f3276ba3e50a4c928d20bdd5c1dab7f, type: 3}
   isAttacking: 0
 --- !u!1 &5288985843080447350

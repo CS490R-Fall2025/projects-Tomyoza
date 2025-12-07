@@ -10,9 +10,9 @@ public class BossController : MonoBehaviour, IDamageable
 
     [Header("Combat Settings")]
     [SerializeField] private GameObject fireballPrefab;
-    [SerializeField] private Transform mouthPos; // Create an empty object at dragon's mouth
+    [SerializeField] private Transform mouthPos;
     [SerializeField] private float attackCooldown = 3.0f;
-    [SerializeField] private float flyDuration = 10.0f; // How long to stay in air
+    [SerializeField] private float flyDuration = 10.0f;
 
     [Header("AI")]
     [SerializeField] private Animator animator;
@@ -132,10 +132,18 @@ public class BossController : MonoBehaviour, IDamageable
     {
         if (fireballPrefab != null && mouthPos != null)
         {
-            GameObject ball = Instantiate(fireballPrefab, mouthPos.position, mouthPos.rotation);
-            // Shoot it forward
+            GameObject ball = Instantiate(fireballPrefab, mouthPos.position, Quaternion.identity);
+            
+            Vector3 aimPoint = target.position + (Vector3.up * 1.5f);
+            Vector3 direction = (aimPoint - mouthPos.position).normalized;
+
+            ball.transform.forward = direction;
+
             Rigidbody rb = ball.GetComponent<Rigidbody>();
-            if (rb != null) rb.linearVelocity = mouthPos.forward * 30f; 
+            if (rb != null) 
+            {
+                rb.linearVelocity = direction * 50f;
+            }
         }
     }
 

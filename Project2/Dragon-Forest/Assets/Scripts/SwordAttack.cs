@@ -14,6 +14,8 @@ public class SwordAttack : MonoBehaviour
     {
         // If we aren't swinging, the sword is just a safe object
         if (!isAttacking) return;
+        if (other.CompareTag("Player")) return;
+        if (other.isTrigger) return;
 
         // Check if the object we hit has the IDamageable interface
         IDamageable target = other.GetComponent<IDamageable>();

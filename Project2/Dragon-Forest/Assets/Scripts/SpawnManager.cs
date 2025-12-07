@@ -3,12 +3,19 @@ using UnityEngine.AI;
 
 public class SpawnManager : MonoBehaviour
 {
+    public static SpawnManager Instance;
     [Header("Settings")]
     public GameObject enemyPrefab; 
     public Transform centerPoint;
     public int numberOfEnemies = 5;
     public float spawnRadius = 10f;
+    public float respawnDelay = 2.0f;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+    
     void Start()
     {
         if (enemyPrefab == null)
@@ -41,6 +48,12 @@ public class SpawnManager : MonoBehaviour
         {
             Debug.Log($"Successfully spawned all {currentSpawnedCount} enemies.");
         }
+    }
+
+    public void RequestRespawn()
+    {
+        // Wait a few seconds, then spawn the replacement
+        Invoke("SpawnOneEnemy", respawnDelay);
     }
 
     bool SpawnOneEnemy()

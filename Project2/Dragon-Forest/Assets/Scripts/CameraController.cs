@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraController : MonoBehaviour
 {
@@ -15,21 +16,36 @@ public class CameraController : MonoBehaviour
     private float yaw = 0f;
     private float pitch = 0f;
 
+    private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+    private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+
     private void Start()
+    {
+        InitializeCamera();
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        InitializeCamera();
+    }
+
+    private void InitializeCamera()
     {
         if (player == null)
         {
             GameObject playerObj = GameObject.FindWithTag("Player");
             if (playerObj != null) player = playerObj.transform;
         }
-        // Initialize rotation to match current view
+
         yaw = transform.eulerAngles.y;
         pitch = transform.eulerAngles.x;
 
-        // IMPORTANT: Lock the mouse cursor to the center of the screen
-        // Press 'Esc' on your keyboard to get your mouse back!
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if (player != null)
+        {
+            LateUpdate(); 
+        }
     }
 
     private void LateUpdate()

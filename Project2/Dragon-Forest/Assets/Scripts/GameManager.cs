@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public string playerName = "Adventurer";
     
     private int crystalsDestroyed = 0; 
+    private bool gameHasEnded = false;
     [SerializeField] private TextMeshProUGUI crystalWarningText;
 
     private void Awake()
@@ -28,6 +29,8 @@ public class GameManager : MonoBehaviour
     {
         if (crystalWarningText != null) crystalWarningText.gameObject.SetActive(false);
         if (victoryCanvas != null) victoryCanvas.SetActive(false);
+        if (gameOverCanvas != null) gameOverCanvas.SetActive(false);
+        gameHasEnded = false;
     }
 
     public void ShowMessage(string message)
@@ -70,6 +73,11 @@ public class GameManager : MonoBehaviour
 
     public void TriggerGameOver()
     {
+        if (gameHasEnded) return;
+        
+        // Lock the game state
+        gameHasEnded = true;
+
         // Show the "Game Over" screen
         if (gameOverCanvas != null) gameOverCanvas.SetActive(true);
 
@@ -82,6 +90,9 @@ public class GameManager : MonoBehaviour
             if (agent != null) agent.isStopped = true; // Stop moving
         }
 
+        BossController boss = FindFirstObjectByType<BossController>();
+        if (boss != null) boss.enabled = false;
+
         // Show Cursor (so you can click the button)
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -89,6 +100,11 @@ public class GameManager : MonoBehaviour
 
     public void TriggerVictory()
     {
+        if (gameHasEnded) return;
+
+        // Lock the game state
+        gameHasEnded = true;
+
         // Show UI
         if (victoryCanvas != null) victoryCanvas.SetActive(true);
 
@@ -105,6 +121,39 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         GameObject player = GameObject.FindWithTag("Player");
+        if (player != null) 
+        {   
+            CharacterController cc = player.GetComponent<CharacterController>();
+            if(cc != null) cc.enabled = false;
+
+            PlayerController pc = player.GetComponent<PlayerController>();
+
+            player.transform.position = pc.initialSpawnPosition;
+            player.transform.rotation = Quaternion.identity;
+
+            if(cc != null) cc.enabled = true;
+
+            PlayerHealth healthScript = player.GetComponent<PlayerHealth>();
+            if (healthScript != null)
+            {
+                healthScript.enabled = true;
+                healthScript.Revive();
+            }
+        }
+
+        crystalsDestroyed = 0;
+        gameHasEnded = false;
+
+        if (victoryCanvas != null) victoryCanvas.SetActive(false);
+        if (gameOverCanvas != null) gameOverCanvas.SetActive(false);
+        
+        Time.timeScale = 1f;
+
+        SceneManager.LoadScene(1);
+    }
+    public void GoToMainMenu()
+    {
+        GameObject player = GameObject.FindWithTag("Player");
         if (player != null) Destroy(player);
 
         GameObject cam = GameObject.FindWithTag("MainCamera");
@@ -113,8 +162,13 @@ public class GameManager : MonoBehaviour
         GameObject canvas = GameObject.FindWithTag("Canvas");
         if (canvas != null) Destroy(canvas);
 
-        // Finally, destroy this Game Manager so a fresh one can spawn
+        GameObject audio = GameObject.FindWithTag("AudioManager");
+        if (audio != null) Destroy(audio);
+
         Destroy(gameObject);
+
+        Time.timeScale = 1f;
+
         SceneManager.LoadScene(0);
     }
 }

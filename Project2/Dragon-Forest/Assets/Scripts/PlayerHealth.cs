@@ -17,6 +17,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public AudioClip hurtSound;
     
     private bool isDead = false;
+    private float minimumY = 0f;
 
     private void Awake()
     {
@@ -30,10 +31,23 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
     }
 
+    private void Update()
+    {
+        // Safety Check: Did we fall off the world?
+        if (transform.position.y < minimumY)
+        {
+            // Instant Death (Game Over)
+            ApplyDamage(maxHealth); 
+            Debug.Log("Player fell out of the world!");
+        }
+    }
+
     // This allows enemies to damage the player
     public void ApplyDamage(int amount)
     {
         if (amount <= 0) return;
+
+        Debug.Log($"took {amount} damage. Source: {new System.Diagnostics.StackTrace()}");
 
         CurrentHealth -= amount;
         AudioManager.Instance.PlaySFX(hurtSound);
@@ -87,5 +101,30 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void CallGameOver()
     {
         GameManager.Instance.TriggerGameOver();
+    }
+
+    public void Revive()
+    {
+        isDead = false;
+        CurrentHealth = maxHealth; 
+        OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
+
+        if (playerController != null) playerController.enabled = true;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.linearVelocity = Vector3.zero;
+        }
+
+        Collider col = GetComponent<Collider>();
+        if (col != null) col.enabled = true;
+
+        if (animator != null)
+        {
+            animator.Rebind();
+            animator.Update(0f);
+        }
     }
 }
