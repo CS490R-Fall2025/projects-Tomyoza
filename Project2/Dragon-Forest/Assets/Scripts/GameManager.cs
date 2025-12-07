@@ -25,6 +25,84 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
     }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // This runs automatically every time a scene finishes loading
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Check if we just loaded the Forest (Index 1)
+        if (scene.buildIndex == 1)
+        {
+            ApplyCloudData();
+        }
+    }
+    public void ApplyCloudData()
+    {
+        // Safety Check: Do we have a Cloud Manager? Do we have data?
+        if (CloudSaveManager.Instance == null || CloudSaveManager.Instance.loadedData == null) 
+        {
+            Debug.Log("No cloud save data found (or Manager missing). Using default stats.");
+            return;
+        }
+
+        // Get the data packet
+        var data = CloudSaveManager.Instance.loadedData;
+        Debug.Log($"Applying Cloud Data: Gold {data.gold}, HP {data.currentHealth}/{data.maxHealth}");
+
+        // Find the Player
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null)
+        {
+            // Apply Gold
+            PlayerWallet wallet = player.GetComponent<PlayerWallet>();
+            if (wallet != null) 
+            {
+                wallet.currentMoney = data.gold;
+            }
+
+            // Apply Health
+            PlayerHealth health = player.GetComponent<PlayerHealth>();
+            if (health != null) 
+            {
+                // Set Max Capacity first
+                if (data.maxHealth > 0) health.maxHealth = data.maxHealth; 
+
+                // Set Current Health
+                if (data.currentHealth > 0)
+                {
+                    health.SetHealth(data.currentHealth);
+                }
+                else
+                {
+                    health.HealFull();
+                }
+            }
+
+            // Apply Speed
+            PlayerController controller = player.GetComponent<PlayerController>();
+            if (controller != null && data.speed > 0)
+            {
+                // Note: You might need to change 'moveSpeed' to public in PlayerController
+                // or add a method: public void SetSpeed(float s) { moveSpeed = s; }
+                controller.UpgradeSpeed(data.speed - controller.MoveSpeed); 
+            }
+
+            // Apply Attack Damage
+            SwordAttack sword = player.GetComponentInChildren<SwordAttack>();
+            if (sword != null && data.attackDamage > 0)
+            {
+                sword.damageAmount = data.attackDamage;
+            }
+        }
+    }
     private void Start()
     {
         if (crystalWarningText != null) crystalWarningText.gameObject.SetActive(false);

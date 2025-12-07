@@ -1280,7 +1280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c38eb52dc7ebf461ea32da8fa1bee99f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1000
+  maxHealth: 500
   damageAmount: 1
   fireballPrefab: {fileID: 2490860041392656034, guid: 112b5d0fd765f474a81d25035a32a0e8, type: 3}
   mouthPos: {fileID: 2260398860437731053}

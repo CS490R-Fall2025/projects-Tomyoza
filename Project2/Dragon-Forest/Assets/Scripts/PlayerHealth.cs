@@ -74,6 +74,16 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         CurrentHealth = maxHealth;
         OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
     }
+    public void SetHealth(int amount)
+    {
+        CurrentHealth = amount;
+        
+        // Safety cap
+        if (CurrentHealth > maxHealth) CurrentHealth = maxHealth;
+        
+        // Update UI
+        OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
+    }
 
     private void Die()
     {
